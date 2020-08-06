@@ -1,0 +1,10 @@
+{
+  "name": "wetube",
+  "version": "1.0.0",
+  "description": "Cloning Youtube JS and Node JS",
+  "main": "index.js",
+  "author": "Hopoduck",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
