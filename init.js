@@ -1,4 +1,5 @@
 // git push origin master
+// git pull origin master
 
 import app from "./app";
 

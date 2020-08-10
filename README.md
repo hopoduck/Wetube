@@ -4,13 +4,15 @@ Cloning Youtube JS and Node JS
 
 ## Pages:
 
-- [ ] Home
+Only HTML source
+
+- [x] Home
 - [x] Join
 - [x] Login
 - [x] Search
-- [ ] User Detail
+- [x] User Detail
 - [x] Edit Profile
 - [x] Change password
 - [x] Upload
-- [ ] Video Detail
+- [x] Video Detail
 - [x] Edit Video
