@@ -13,6 +13,7 @@ const app = express();
 
 app.use(helmet());
 app.set("view engine", "pug");
+app.use("/uploads", express.static("uploads"));
 app.use(cookieParser());
 app.use(bodyParser.json()); // 모든 라우터에 적용되는 함수
 app.use(bodyParser.urlencoded({ extended: true })); // 모든 라우터에 적용되는 함수
