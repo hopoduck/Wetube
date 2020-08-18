@@ -1,5 +1,33 @@
-@import "config/variables.scss";
+@import "config/_variables.scss";
+@import "config/reset.scss";
+@import "main.scss";
 
-body {
-  background-color: $sexyColor;
+.header {
+  width: 100%;
+  height: $header-height;
+  margin: 0px 20px;
+  background-color: $grey;
+  display: table;
+  .header__column {
+    display: table-cell;
+    vertical-align: middle;
+    float: left;
+    font-size: 45px;
+    line-height: $header-height;
+    input {
+      line-height: $header-height;
+      vertical-align: middle;
+      float: left;
+      width: 400px;
+      height: 50px;
+    }
+    li {
+      float: left;
+      font-size: 20px;
+      margin: 0px 10px;
+    }
+    &:last-child {
+      justify-self: end;
+    }
+  }
 }
