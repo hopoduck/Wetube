@@ -1,0 +1,62 @@
+.header {
+  width: 100%;
+  top: 0px;
+  left: 0px;
+  background-color: $grey;
+  vertical-align: center;
+  margin-bottom: 30px;
+  .header__wrap {
+    width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 1fr;
+    .header__column {
+      vertical-align: center;
+      line-height: $header-height;
+      &:nth-child(1) {
+        a {
+          background-color: $dark-grey;
+          padding: 15px 5px;
+          border-radius: 10px;
+        }
+        i {
+          vertical-align: middle;
+          font-size: 45px;
+          color: $red;
+        }
+        span {
+          margin: 0px 5px;
+          font-size: 25px;
+          line-height: 45px;
+          vertical-align: middle;
+        }
+      }
+      &:nth-child(2) {
+        padding: 10px;
+        form {
+          width: 100%;
+          margin: 0 auto;
+          input {
+            width: 100%;
+            line-height: $header-height;
+            float: left;
+            height: 40px;
+            padding: 5px 20px;
+            background-color: $dark-grey;
+            font-size: 20px;
+            border-radius: 15px;
+          }
+        }
+      }
+      &:last-child {
+        text-align: right;
+        li {
+          float: right;
+          font-size: 15px;
+          margin: 0px 10px;
+          text-transform: uppercase;
+        }
+      }
+    }
+  }
+}

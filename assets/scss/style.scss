@@ -1,71 +1,74 @@
 @import "config/_variables.scss";
 @import "config/reset.scss";
 @import "main.scss";
-.header {
-  position: absolute;
-  width: 100%;
-  top: 0px;
-  left: 0px;
-  height: $header-height;
-  background-color: $grey;
-  vertical-align: center;
-  .wrap {
-    width: 1000px;
-    height: $header-height;
-    margin: 0 auto;
-    .header__column {
-      vertical-align: center;
-      line-height: $header-height;
-      &:nth-child(1) {
-        width: 65px;
-        float: left;
-        font-size: 45px;
-        i {
-          color: $red;
-        }
-      }
-      &:nth-child(2) {
-        float: left;
-        width: 700px;
-        padding: 10px;
-        form {
-          width: 100%;
-          margin: 0 auto;
-          input {
-            width: 100%;
-            line-height: $header-height;
-            float: left;
-            height: 40px;
-            padding: 5px 20px;
-            background-color: $dark-grey;
-            font-size: 20px;
-            border-radius: 15px;
-          }
-        }
-      }
-      &:last-child {
-        width: 235px;
-        float: right;
-        text-align: right;
-        li {
-          float: right;
-          font-size: 15px;
-          margin: 0px 10px;
-          text-transform: uppercase;
-        }
-      }
-    }
-  }
-}
 
-main {
-  margin-top: $header-height;
-  margin-bottom: -$header-height;
-}
+@import "partials/header.scss";
 
-footer.footer {
-  position: absolute;
-  bottom: 0px;
-  width: 100%;
-  height: $footer-height;
-}
+// .header {
+//   position: absolute;
+//   width: 100%;
+//   top: 0px;
+//   left: 0px;
+//   height: $header-height;
+//   background-color: $grey;
+//   vertical-align: center;
+//   .wrap {
+//     width: 1000px;
+//     height: $header-height;
+//     margin: 0 auto;
+//     .header__column {
+//       vertical-align: center;
+//       line-height: $header-height;
+//       &:nth-child(1) {
+//         width: 65px;
+//         float: left;
+//         font-size: 45px;
+//         i {
+//           color: $red;
+//         }
+//       }
+//       &:nth-child(2) {
+//         float: left;
+//         width: 700px;
+//         padding: 10px;
+//         form {
+//           width: 100%;
+//           margin: 0 auto;
+//           input {
+//             width: 100%;
+//             line-height: $header-height;
+//             float: left;
+//             height: 40px;
+//             padding: 5px 20px;
+//             background-color: $dark-grey;
+//             font-size: 20px;
+//             border-radius: 15px;
+//           }
+//         }
+//       }
+//       &:last-child {
+//         width: 235px;
+//         float: right;
+//         text-align: right;
+//         li {
+//           float: right;
+//           font-size: 15px;
+//           margin: 0px 10px;
+//           text-transform: uppercase;
+//         }
+//       }
+//     }
+//   }
+// }
+
+// main {
+//   margin-top: $header-height;
+//   margin-bottom: -$header-height;
+// }
+
+// footer.footer {
+//   position: absolute;
+//   bottom: 0px;
+//   width: 100%;
+//   height: $footer-height;
+// }

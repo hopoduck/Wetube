@@ -1,8 +1,9 @@
 header.header
-    .wrap
+    .header__wrap
         .header__column
             a(href=routes.home)
                 i.fab.fa-youtube
+                span Wetube
         .header__column
             form(action=routes.search, methode='get')
                 input(type="text", name="term", placeholder="Search by term...")
