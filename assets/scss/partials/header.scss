@@ -6,7 +6,7 @@
   vertical-align: center;
   margin-bottom: 30px;
   .header__wrap {
-    width: 1000px;
+    width: $max-width;
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr 1.5fr 1fr;
@@ -14,11 +14,6 @@
       vertical-align: center;
       line-height: $header-height;
       &:nth-child(1) {
-        a {
-          background-color: $dark-grey;
-          padding: 15px 5px;
-          border-radius: 10px;
-        }
         i {
           vertical-align: middle;
           font-size: 45px;
@@ -45,6 +40,11 @@
             background-color: $dark-grey;
             font-size: 20px;
             border-radius: 15px;
+          }
+          input::placeholder {
+            font-size: 15px;
+            vertical-align: middle;
+            font-weight: 300;
           }
         }
       }

@@ -1,0 +1,32 @@
+.form-container {
+  width: $max-width;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  form {
+    align-items: center;
+    .placeholder {
+      font-size: 20px;
+    }
+    input,
+    textarea {
+      display: block;
+      padding: 15px 10px;
+      margin: 15px 0px;
+      width: 500px;
+      border-radius: 10px;
+      box-shadow: 3px 2px $dark-grey;
+      &:last-child {
+        border: none;
+        margin: 20px 20%;
+        width: 60%;
+        background-color: rgba($color: #ffd900, $alpha: 0.6);
+        font-size: 18px;
+        &:hover {
+          cursor: pointer;
+          background-color: rgba($color: #ffd900, $alpha: 0.8);
+        }
+      }
+    }
+  }
+}
