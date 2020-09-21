@@ -8,6 +8,9 @@ block content
             a(href=routes.editVideo(video.id))
                 button.small Edit Video
             .video__title=video.title
+            .video__author
+                | Uploaded by
+                a(href=routes.userDetail(video.creator.id))=video.creator.name
             .video__views #{video.views} views
             .video__description=video.description
         .video__comment
