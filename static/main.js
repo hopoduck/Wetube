@@ -11524,7 +11524,7 @@ try {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(/*! @babel/polyfill */"./node_modules/@babel/polyfill/lib/index.js");
-module.exports = __webpack_require__(/*! D:\Program Files\Wetube\assets\js\main.js */"./assets/js/main.js");
+module.exports = __webpack_require__(/*! G:\Serverbackup\Wetube\assets\js\main.js */"./assets/js/main.js");
 
 
 /***/ })

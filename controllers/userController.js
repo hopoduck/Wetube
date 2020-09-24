@@ -65,8 +65,8 @@ export const postGithubLogIn = (req, res) => {
   res.redirect(routes.home);
 };
 
-export const logout = (req, res) => {
-  req.logout();
+export const logout = async (req, res) => {
+  await req.logout();
   res.redirect(routes.home);
 };
 
@@ -79,14 +79,14 @@ export const userDetail = async (req, res) => {
     params: { id },
   } = req;
   try {
-    const user = await User.findById(id);
+    const user = await (await User.findById(id)).populated("videos");
+    console.log(user);
     res.render("userDetail", { pageTitle: "User Detail", user });
   } catch (error) {
     res.redirect(routes.home);
   }
 };
-export const getEditProfile = (req, res) =>
-  res.render("editProfile", { pageTitle: "Edit profile" });
+export const getEditProfile = (req, res) => res.render("editProfile", { pageTitle: "Edit profile" });
 export const postEditProfile = async (req, res) => {
   const {
     body: { name, email },
@@ -104,8 +104,7 @@ export const postEditProfile = async (req, res) => {
   }
 };
 
-export const getChangePassword = (req, res) =>
-  res.render("changePassword", { pageTitle: "Change Password" });
+export const getChangePassword = (req, res) => res.render("changePassword", { pageTitle: "Change Password" });
 export const postChangePassword = async (req, res) => {
   const {
     body: { oldPassword, newPassword, newPassword1 },

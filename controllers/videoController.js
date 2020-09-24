@@ -12,7 +12,6 @@ export const home = async (req, res) => {
 };
 
 export const search = async (req, res) => {
-  console.log(req.body.file);
   const {
     query: { term: searchingBy },
   } = req;
@@ -27,8 +26,7 @@ export const search = async (req, res) => {
   res.render("search", { pageTitle: "Search", searchingBy, videos });
 };
 
-export const getUpload = (req, res) =>
-  res.render("upload", { pageTitle: "Upload" });
+export const getUpload = (req, res) => res.render("upload", { pageTitle: "Upload" });
 export const postUpload = async (req, res) => {
   const {
     body: { title, description },
@@ -40,6 +38,7 @@ export const postUpload = async (req, res) => {
     description,
     creator: req.user.id,
   });
+  // console.log(req.user.videos);
   req.user.videos.push(newVideo.id);
   req.user.save();
   res.redirect(routes.videoDetail(newVideo.id));
@@ -50,7 +49,7 @@ export const videoDetail = async (req, res) => {
     params: { id },
   } = req;
   try {
-    const video = await (await Video.findById(id)).populate("creator");
+    const video = await Video.findById(id).populate("creator");
     res.render("videoDetail", { pageTitle: video.title, video });
   } catch (error) {
     res.redirect(routes.home);
@@ -63,7 +62,12 @@ export const getEditVideo = async (req, res) => {
   } = req;
   try {
     const video = await Video.findById(id);
-    res.render("editVideo", { pageTitle: `Edit ${video.title}`, video });
+    console.log(video.creator, req.user.id);
+    if (video.creator === req.user.id) {
+      res.render("editVideo", { pageTitle: `Edit ${video.title}`, video });
+    } else {
+      throw Error();
+    }
   } catch (error) {
     res.redirect(routes.home);
   }
@@ -86,7 +90,11 @@ export const getDeleteVideo = async (req, res) => {
     params: { id },
   } = req;
   try {
-    await Video.findByIdAndRemove({ _id: id });
+    if (video.creator === req.user.id) {
+      await Video.findByIdAndRemove({ _id: id });
+    } else {
+      throw Error();
+    }
   } catch (error) {
     console.log(error);
   }

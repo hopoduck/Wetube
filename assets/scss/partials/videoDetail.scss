@@ -5,8 +5,11 @@
   align-items: center;
   text-align: center;
   .video__player {
+    width: 100%;
+    height: 50vmax;
     margin-bottom: 30px;
     video {
+      height: 50vmax;
       width: 100%;
     }
   }

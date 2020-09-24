@@ -7,14 +7,18 @@ const UserSchema = new mongoose.Schema({
   avatarUrl: String,
   facebookId: Number,
   githubId: Number,
-  comments: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Comment",
-  },
-  videos: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Video",
-  },
+  comments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Comment",
+    },
+  ],
+  videos: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Video",
+    },
+  ],
 });
 
 UserSchema.plugin(passportLocalMongoose, {
@@ -22,8 +26,7 @@ UserSchema.plugin(passportLocalMongoose, {
   errorMessages: {
     MissingPasswordError: "No password was given",
     AttemptTooSoonError: "Account is currently locked. Try again later",
-    TooManyAttemptsError:
-      "Account locked due to too many failed login attempts",
+    TooManyAttemptsError: "Account locked due to too many failed login attempts",
     NoSaltValueStoredError: "Authentication not possible. No salt value stored",
     IncorrectPasswordError: "Password or username are incorrect",
     IncorrectUsernameError: "Password or username are incorrect",
