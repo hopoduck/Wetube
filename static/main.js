@@ -97,32 +97,111 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _scss_style_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../scss/style.scss */ "./assets/scss/style.scss");
 /* harmony import */ var _scss_style_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_scss_style_scss__WEBPACK_IMPORTED_MODULE_0__);
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
+/* harmony import */ var _videoPlayer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./videoPlayer.js */ "./assets/js/videoPlayer.js");
+/* harmony import */ var _videoPlayer_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_videoPlayer_js__WEBPACK_IMPORTED_MODULE_1__);
 
 
-var something = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            console.log("aa");
 
-          case 1:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
+/***/ }),
 
-  return function something() {
-    return _ref.apply(this, arguments);
-  };
-}();
+/***/ "./assets/js/videoPlayer.js":
+/*!**********************************!*\
+  !*** ./assets/js/videoPlayer.js ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var videoContainer = document.getElementById("jsVideoPlayer");
+var videoPlayer = document.querySelector("#jsVideoPlayer video");
+var playBtn = document.getElementById("jsPlayButton");
+var volumeBtn = document.getElementById("jsVolumeButton");
+var fullScreenBtn = document.getElementById("jsFullScreen");
+var currentTime = document.getElementById("currentTime");
+var totalTime = document.getElementById("totalTime");
+
+var formatDate = function formatDate(seconds) {
+  var secondsNumber = parseInt(seconds, 10);
+  var hours = Math.floor(secondsNumber / 3600);
+  var minutes = Math.floor((secondsNumber - hours * 3600) / 60);
+  var totalSeconds = secondsNumber - hours * 3600 - minutes * 60;
+
+  if (hours < 10) {
+    hours = "0".concat(hours);
+  }
+
+  if (minutes < 10) {
+    minutes = "0".concat(minutes);
+  }
+
+  if (totalSeconds < 10) {
+    totalSeconds = "0".concat(totalSeconds);
+  }
+
+  return "".concat(hours, ":").concat(minutes, ":").concat(totalSeconds);
+};
+
+function handlePlayClick() {
+  if (videoPlayer.paused) {
+    videoPlayer.play();
+    playBtn.innerHTML = "<i class=\"fas fa-pause\"></i>";
+  } else {
+    videoPlayer.pause();
+    playBtn.innerHTML = "<i class=\"fas fa-play\"></i>";
+  }
+}
+
+function handleVolumeClick() {
+  if (videoPlayer.muted) {
+    videoPlayer.muted = false;
+    volumeBtn.innerHTML = "<i class=\"fas fa-volume-up\"></i>";
+  } else {
+    videoPlayer.muted = true;
+    volumeBtn.innerHTML = "<i class=\"fas fa-volume-mute\"></i>";
+  }
+}
+
+function handleFullScreenClick() {
+  if (!document.fullscreenElement) {
+    videoContainer.requestFullscreen();
+    fullScreenBtn.innerHTML = "<i class=\"fas fa-compress\"></i>";
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+      fullScreenBtn.innerHTML = "<i class=\"fas fa-expand\"></i>";
+    }
+  }
+}
+
+function setTotalTime() {
+  var totalTimeString = formatDate(videoPlayer.duration);
+  totalTime.innerHTML = totalTimeString;
+  getCurrentTime();
+}
+
+function getCurrentTime() {
+  setInterval(function () {
+    var currentTimeString = formatDate(Math.floor(videoPlayer.currentTime));
+    currentTime.innerHTML = currentTimeString;
+  }, 1000);
+}
+
+function handleEnded() {
+  videoPlayer.currentTime = 0;
+  playBtn.innerHTML = "<i class=\"fas fa-play\"></i>";
+}
+
+function init() {
+  videoPlayer.addEventListener("click", handlePlayClick);
+  playBtn.addEventListener("click", handlePlayClick);
+  volumeBtn.addEventListener("click", handleVolumeClick);
+  fullScreenBtn.addEventListener("click", handleFullScreenClick);
+  videoPlayer.addEventListener("loadedmetadata", setTotalTime);
+  videoPlayer.addEventListener("ended");
+}
+
+if (videoContainer) {
+  init();
+}
 
 /***/ }),
 
@@ -11524,7 +11603,7 @@ try {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(/*! @babel/polyfill */"./node_modules/@babel/polyfill/lib/index.js");
-module.exports = __webpack_require__(/*! G:\Serverbackup\Wetube\assets\js\main.js */"./assets/js/main.js");
+module.exports = __webpack_require__(/*! D:\Program Files\Wetube\assets\js\main.js */"./assets/js/main.js");
 
 
 /***/ })
