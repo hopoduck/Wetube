@@ -5,6 +5,15 @@ const volumeBtn = document.getElementById("jsVolumeButton");
 const fullScreenBtn = document.getElementById("jsFullScreen");
 const currentTime = document.getElementById("currentTime");
 const totalTime = document.getElementById("totalTime");
+const volumeRange = document.getElementById("jsVolume");
+const videoTime = document.getElementById("jsVideoTime");
+
+const registerView = () => {
+  const videoId = window.location.href.split("/videos/")[1];
+  fetch(`/api/${videoId}/view`, {
+    method: "POST",
+  });
+};
 
 const formatDate = (seconds) => {
   const secondsNumber = parseInt(seconds, 10);
@@ -37,9 +46,25 @@ function handleVolumeClick() {
   if (videoPlayer.muted) {
     videoPlayer.muted = false;
     volumeBtn.innerHTML = `<i class="fas fa-volume-up"></i>`;
+    volumeRange.value = videoPlayer.volume;
   } else {
     videoPlayer.muted = true;
     volumeBtn.innerHTML = `<i class="fas fa-volume-mute"></i>`;
+    volumeRange.value = 0;
+  }
+}
+
+function HandleVolumeDrag(event) {
+  const {
+    target: { value },
+  } = event;
+  videoPlayer.volume = value;
+  if (value >= 0.6) {
+    volumeBtn.innerHTML = `<i class="fas fa-volume-up"></i>`;
+  } else if (value >= 0.2) {
+    volumeBtn.innerHTML = `<i class="fas fa-volume-down"></i>`;
+  } else {
+    volumeBtn.innerHTML = `<i class="fas fa-volume-off"></i>`;
   }
 }
 
@@ -58,27 +83,37 @@ function handleFullScreenClick() {
 function setTotalTime() {
   const totalTimeString = formatDate(videoPlayer.duration);
   totalTime.innerHTML = totalTimeString;
+  videoTime.max = Math.ceil(videoPlayer.duration);
   getCurrentTime();
 }
-
 function getCurrentTime() {
   setInterval(() => {
     const currentTimeString = formatDate(Math.floor(videoPlayer.currentTime));
     currentTime.innerHTML = currentTimeString;
-  }, 1000);
+    videoTime.value = Math.ceil(videoPlayer.currentTime);
+  }, 100);
+}
+
+function HandleVideoTimeDrag() {
+  videoPlayer.currentTime = videoTime.value;
 }
 
 function handleEnded() {
   videoPlayer.currentTime = 0;
   playBtn.innerHTML = `<i class="fas fa-play"></i>`;
+  registerView();
 }
+
 function init() {
   videoPlayer.addEventListener("click", handlePlayClick);
   playBtn.addEventListener("click", handlePlayClick);
   volumeBtn.addEventListener("click", handleVolumeClick);
   fullScreenBtn.addEventListener("click", handleFullScreenClick);
-  videoPlayer.addEventListener("loadedmetadata", setTotalTime);
-  videoPlayer.addEventListener("ended");
+  videoPlayer.addEventListener("dblclick", handleFullScreenClick);
+  document.addEventListener("DOMContentLoaded", setTotalTime);
+  videoPlayer.addEventListener("ended", handleEnded);
+  volumeRange.addEventListener("input", HandleVolumeDrag);
+  videoTime.addEventListener("input", HandleVideoTimeDrag);
 }
 
 if (videoContainer) {

@@ -97,8 +97,11 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _scss_style_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../scss/style.scss */ "./assets/scss/style.scss");
 /* harmony import */ var _scss_style_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_scss_style_scss__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _videoPlayer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./videoPlayer.js */ "./assets/js/videoPlayer.js");
-/* harmony import */ var _videoPlayer_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_videoPlayer_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _videoPlayer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./videoPlayer */ "./assets/js/videoPlayer.js");
+/* harmony import */ var _videoPlayer__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_videoPlayer__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _videoRecoder__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./videoRecoder */ "./assets/js/videoRecoder.js");
+/* harmony import */ var _videoRecoder__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_videoRecoder__WEBPACK_IMPORTED_MODULE_3__);
+
 
 
 
@@ -118,6 +121,15 @@ var volumeBtn = document.getElementById("jsVolumeButton");
 var fullScreenBtn = document.getElementById("jsFullScreen");
 var currentTime = document.getElementById("currentTime");
 var totalTime = document.getElementById("totalTime");
+var volumeRange = document.getElementById("jsVolume");
+var videoTime = document.getElementById("jsVideoTime");
+
+var registerView = function registerView() {
+  var videoId = window.location.href.split("/videos/")[1];
+  fetch("/api/".concat(videoId, "/view"), {
+    method: "POST"
+  });
+};
 
 var formatDate = function formatDate(seconds) {
   var secondsNumber = parseInt(seconds, 10);
@@ -154,9 +166,24 @@ function handleVolumeClick() {
   if (videoPlayer.muted) {
     videoPlayer.muted = false;
     volumeBtn.innerHTML = "<i class=\"fas fa-volume-up\"></i>";
+    volumeRange.value = videoPlayer.volume;
   } else {
     videoPlayer.muted = true;
     volumeBtn.innerHTML = "<i class=\"fas fa-volume-mute\"></i>";
+    volumeRange.value = 0;
+  }
+}
+
+function HandleVolumeDrag(event) {
+  var value = event.target.value;
+  videoPlayer.volume = value;
+
+  if (value >= 0.6) {
+    volumeBtn.innerHTML = "<i class=\"fas fa-volume-up\"></i>";
+  } else if (value >= 0.2) {
+    volumeBtn.innerHTML = "<i class=\"fas fa-volume-down\"></i>";
+  } else {
+    volumeBtn.innerHTML = "<i class=\"fas fa-volume-off\"></i>";
   }
 }
 
@@ -175,6 +202,7 @@ function handleFullScreenClick() {
 function setTotalTime() {
   var totalTimeString = formatDate(videoPlayer.duration);
   totalTime.innerHTML = totalTimeString;
+  videoTime.max = Math.ceil(videoPlayer.duration);
   getCurrentTime();
 }
 
@@ -182,12 +210,18 @@ function getCurrentTime() {
   setInterval(function () {
     var currentTimeString = formatDate(Math.floor(videoPlayer.currentTime));
     currentTime.innerHTML = currentTimeString;
-  }, 1000);
+    videoTime.value = Math.ceil(videoPlayer.currentTime);
+  }, 100);
+}
+
+function HandleVideoTimeDrag() {
+  videoPlayer.currentTime = videoTime.value;
 }
 
 function handleEnded() {
   videoPlayer.currentTime = 0;
   playBtn.innerHTML = "<i class=\"fas fa-play\"></i>";
+  registerView();
 }
 
 function init() {
@@ -195,11 +229,115 @@ function init() {
   playBtn.addEventListener("click", handlePlayClick);
   volumeBtn.addEventListener("click", handleVolumeClick);
   fullScreenBtn.addEventListener("click", handleFullScreenClick);
-  videoPlayer.addEventListener("loadedmetadata", setTotalTime);
-  videoPlayer.addEventListener("ended");
+  videoPlayer.addEventListener("dblclick", handleFullScreenClick);
+  document.addEventListener("DOMContentLoaded", setTotalTime);
+  videoPlayer.addEventListener("ended", handleEnded);
+  volumeRange.addEventListener("input", HandleVolumeDrag);
+  videoTime.addEventListener("input", HandleVideoTimeDrag);
 }
 
 if (videoContainer) {
+  init();
+}
+
+/***/ }),
+
+/***/ "./assets/js/videoRecoder.js":
+/*!***********************************!*\
+  !*** ./assets/js/videoRecoder.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+var recorderContainer = document.getElementById("jsRecordContainer");
+var recordBtn = document.getElementById("jsRecordBtn");
+var videoPreview = document.getElementById("jsVideoPreview");
+var streamObject;
+var videoRecorder;
+
+var handleVideoData = function handleVideoData(event) {
+  var videoFile = event.data;
+  var link = document.createElement("a");
+  link.href = URL.createObjectURL(videoFile);
+  link.download = "recorded.webm";
+  document.body.appendChild(link);
+  link.click();
+};
+
+var stopRecording = function stopRecording() {
+  videoRecorder.stop();
+  recordBtn.removeEventListener("click", stopRecording);
+  recordBtn.addEventListener("click", getVideo);
+  recordBtn.innerHTML = "Start recording";
+};
+
+var startRecording = function startRecording() {
+  videoRecorder = new MediaRecorder(streamObject);
+  videoRecorder.start();
+  videoRecorder.addEventListener("dataavailable", handleVideoData);
+  recordBtn.addEventListener("click", stopRecording);
+};
+
+var getVideo = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+    var stream;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.prev = 0;
+            _context.next = 3;
+            return navigator.mediaDevices.getUserMedia({
+              audio: true,
+              video: {
+                width: 1280,
+                height: 720
+              }
+            });
+
+          case 3:
+            stream = _context.sent;
+            videoPreview.srcObject = stream;
+            videoPreview.muted = true;
+            videoPreview.play();
+            recordBtn.innerHTML = "Stop recording";
+            streamObject = stream;
+            startRecording();
+            _context.next = 15;
+            break;
+
+          case 12:
+            _context.prev = 12;
+            _context.t0 = _context["catch"](0);
+            recordBtn.innerHTML = "☹️ Cant record";
+
+          case 15:
+            _context.prev = 15;
+            recordBtn.removeEventListener("click", getVideo);
+            return _context.finish(15);
+
+          case 18:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee, null, [[0, 12, 15, 18]]);
+  }));
+
+  return function getVideo() {
+    return _ref.apply(this, arguments);
+  };
+}();
+
+function init() {
+  recordBtn.addEventListener("click", getVideo);
+}
+
+if (recorderContainer) {
   init();
 }
 

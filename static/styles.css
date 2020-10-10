@@ -424,7 +424,15 @@ footer.footer {
     line-height: 25px; }
     .videoPlayer .videoPlayer__controls * {
       vertical-align: middle; }
-    .videoPlayer .videoPlayer__controls .videoPlayer__column:first-child {
+    .videoPlayer .videoPlayer__controls #jsVideoTime {
+      margin: 0px;
+      cursor: pointer;
+      position: absolute;
+      top: -10px;
+      width: 100%; }
+    .videoPlayer .videoPlayer__controls #jsVolume {
+      cursor: pointer; }
+    .videoPlayer .videoPlayer__controls .videoPlayer__column:nth-child(2) {
       display: -webkit-box;
       display: -webkit-flex;
       display: -moz-box;
@@ -435,10 +443,11 @@ footer.footer {
          -moz-box-align: center;
           -ms-flex-align: center;
               align-items: center; }
-      .videoPlayer .videoPlayer__controls .videoPlayer__column:first-child span {
+      .videoPlayer .videoPlayer__controls .videoPlayer__column:nth-child(2) span {
         margin-left: 4px;
-        margin-right: 22px; }
-    .videoPlayer .videoPlayer__controls .videoPlayer__column:nth-child(2) {
+        margin-right: 22px;
+        width: 25px; }
+    .videoPlayer .videoPlayer__controls .videoPlayer__column:nth-child(3) {
       font-size: 16px;
       justify-self: center; }
     .videoPlayer .videoPlayer__controls .videoPlayer__column:last-child {
@@ -497,6 +506,16 @@ footer.footer {
         .form-container form textarea:last-child:hover {
           cursor: pointer;
           background-color: rgba(255, 217, 0, 0.8); }
+
+.record-container {
+  width: 50%;
+  margin-bottom: 50px; }
+  .record-container video {
+    background-color: #444444;
+    width: 100%;
+    margin-bottom: 20px; }
+  .record-container button {
+    width: 100%; }
 
 .home-videos {
   display: grid;
