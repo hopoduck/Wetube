@@ -6,8 +6,6 @@ block content
         +videoPlayer({
             src:video.fileUrl
         })
-        //- .video__player
-        //-     video(src='../'+video.fileUrl, controls=true)
         .video__info
             if video.creator.id === loggedUser.id
                 button.small 
@@ -31,5 +29,8 @@ block content
                 input(type="text", placeholder="Add a Comment...")
             ul.video__comment-list#jsCommentList
                 each comment in video.comments.reverse()
-                    .comment(id=`${comment._id}`)=comment.text
-                    
+                    if String(loggedUser._id) === String(comment.creator)
+                        .comment(data-id=comment._id)=comment.text
+                        input(type="submit", value="X" data-id=comment._id)
+                    else 
+                        .comment(id=`${comment._id}`)=comment.text

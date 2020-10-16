@@ -103,6 +103,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 var addCommentForm = document.getElementById("jsAddComment");
+var deleteCommentBtn = document.getElementById("jsDeleteComment");
 var commentList = document.getElementById("jsCommentList");
 var commentCount = document.getElementById("jsCommentCount");
 var commentEnd = document.getElementById("jsCommentEnd");
@@ -110,6 +111,7 @@ var commentEnd = document.getElementById("jsCommentEnd");
 var addComment = function addComment(comment) {
   var div = document.createElement("div");
   div.classList.add("comment");
+  div.setAttribute("data-id", "attributevalue");
   div.innerHTML = comment;
   commentList.prepend(div);
   commentCount.innerHTML = parseInt(commentCount.innerHTML) + 1;
@@ -120,6 +122,8 @@ var addComment = function addComment(comment) {
     commentEnd.innerHTML = "&nbsp;comments";
   }
 };
+
+var deleteComment = function deleteComment(event, comment) {};
 
 var sendComment = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(comment) {
@@ -142,6 +146,7 @@ var sendComment = /*#__PURE__*/function () {
             response = _context.sent;
 
             if (response.status === 200) {
+              console.log(response);
               addComment(comment);
             }
 
@@ -167,7 +172,7 @@ var handleSubmit = function handleSubmit(event) {
 };
 
 function init() {
-  addCommentForm.addEventListener("submit", handleSubmit);
+  addCommentForm.addEventListener("submit", handleSubmit); // deleteCommentBtn
 }
 
 if (addCommentForm) {
