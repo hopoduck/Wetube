@@ -373,6 +373,8 @@ footer.footer {
       margin-bottom: 20px;
       font-size: 35px;
       font-weight: 600; }
+    .video-detail__container .video__info .video__author {
+      margin-bottom: 10px; }
     .video-detail__container .video__info .video__views {
       font-size: 20px;
       color: rgba(0, 0, 0, 0.6);
@@ -384,9 +386,30 @@ footer.footer {
       font-weight: 400;
       margin-bottom: 20px; }
   .video-detail__container .video__comment {
-    font-size: 14px; }
+    font-size: 16px; }
     .video-detail__container .video__comment .video__comment-number {
-      margin-top: 10px; }
+      margin-top: 10px;
+      margin-bottom: 40px; }
+    .video-detail__container .video__comment input {
+      border: 1.5px solid rgba(68, 68, 68, 0.4);
+      -webkit-border-radius: 5px;
+         -moz-border-radius: 5px;
+              border-radius: 5px;
+      padding: 10px;
+      font-size: 14px;
+      width: 300px; }
+    .video-detail__container .video__comment .comment {
+      padding: 20px;
+      margin: 20px 0px;
+      font-size: 14px;
+      color: #ffffff;
+      background-color: rgba(34, 85, 238, 0.8);
+      -webkit-border-radius: 15px;
+         -moz-border-radius: 15px;
+              border-radius: 15px;
+      -webkit-border-bottom-left-radius: 0px;
+         -moz-border-radius-bottomleft: 0px;
+              border-bottom-left-radius: 0px; }
 
 .videoBlock video {
   margin-bottom: 10px;

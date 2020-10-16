@@ -19,7 +19,17 @@ block content
             .video__views #{video.views} views
             .video__description=video.description
         .video__comment
-            if video.comments.length === 1 
-                span.video__comment-number 1 comment
+            if video.comments.length === 0 || video.comments.length === 1
+                .video__comment-number
+                    span#jsCommentCount=video.comments.length
+                    span#jsCommentEnd &nbsp;comment
             else
-                span.video__comment-number #{video.comments.length} comments
+                .video__comment-number
+                    span#jsCommentCount=video.comments.length
+                    span#jsCommentEnd &nbsp;comments
+            form.add__comment#jsAddComment
+                input(type="text", placeholder="Add a Comment...")
+            ul.video__comment-list#jsCommentList
+                each comment in video.comments.reverse()
+                    .comment(id=`${comment._id}`)=comment.text
+                    
